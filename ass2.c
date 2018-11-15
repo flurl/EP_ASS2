@@ -68,15 +68,23 @@ void updateRollers(char roller[][NUMBER_OF_ROLLER_ELEMENTS], int offsets[])
 }
 
 void rotateRoller(char roller[]) {
-  char tmp[NUMBER_OF_ROLLER_ELEMENTS];
+  //char tmp[NUMBER_OF_ROLLER_ELEMENTS];
+  char tmp;
   /*for (int i=0; i<NUMBER_OF_ROLLER_ELEMENTS; i++) printf("%c", roller[i]);
   printf("\n");*/
   
-  memcpy(tmp+1, roller, sizeof(char)*NUMBER_OF_ROLLER_ELEMENTS-sizeof(char));
+  /*memcpy(tmp+1, roller, sizeof(char)*NUMBER_OF_ROLLER_ELEMENTS-sizeof(char));
   tmp[0] = roller[NUMBER_OF_ROLLER_ELEMENTS-1];
-  memcpy(roller, tmp, sizeof(char)*NUMBER_OF_ROLLER_ELEMENTS);
+  memcpy(roller, tmp, sizeof(char)*NUMBER_OF_ROLLER_ELEMENTS);*/
   /*for (int i=0; i<NUMBER_OF_ROLLER_ELEMENTS; i++) printf("%c", roller[i]);
   printf("\n");*/
+  
+  tmp = roller[NUMBER_OF_ROLLER_ELEMENTS-1];
+  for (int counter=NUMBER_OF_ROLLER_ELEMENTS-1; counter>0; counter--) {
+	  roller[counter] = roller[counter-1];
+  }
+  roller[0] = tmp;
+  
 }
 
 /*void rotateRoller(char roller[])
@@ -114,9 +122,7 @@ int main(int argc, char** argv)
     {
       // encipher, print character and update rollers
 //      printf("%d", inputed_char);
-      ukw = roller[4][roller[3][roller[2][roller[1][roller[0][input - 'A'] - 
-'A'] -  
-'A']- 'A'] - 'A'];
+      ukw = roller[4][roller[3][roller[2][roller[1][roller[0][input - 'A'] - 'A'] - 'A']- 'A'] - 'A'];
 
       egw = (strchr(roller[0], (strchr(roller[1], 
 (strchr(roller[2], (strchr(roller[3], ukw) - roller[3]) + 'A') - roller[2]) +  
