@@ -3,11 +3,10 @@
 //
 // Template program for EP Assignment 2 WS18
 //
-// Group: Group <Group Number>, study assistant <Name of Study assistant>
+// Group: Group C, study assistant Thomas Schwar
 //
-// Authors: <Name> <Matriculum Number>
-// <Name> <Matriculum Number>
-// <Add one row for every additional group member>
+// Authors: Florian Klug 09830971
+// Robin Edlinger 11804235
 //------------------------------------------------------------------------------
 //
 #include <stdio.h>
