@@ -23,12 +23,18 @@ char rollForward(char roller[], char to_roll);
 char rollBackward(char roller[], char to_roll);
 
 
-/*
+
 void printRollers(char roller[][NUMBER_OF_ROLLER_ELEMENTS])
 {
-  // print table
-}
+  printf("    | 1 | 2 | 3 | 4 | 5\n----+---+---+---+---+---\n");
+  for (int index = 0; index < 26; index++) {
+    printf("%3d | %c | %c | %c | %c | %c\n", index+1, roller[0][index], 
+           roller[1][index], roller[2][index], roller[3][index], 
+           roller[4][index]);
+  }
 
+}
+/*
 char encipher(char roller[][NUMBER_OF_ROLLER_ELEMENTS], char to_encipher)
 {
   // encipher single character and return it
@@ -137,7 +143,9 @@ int main(int argc, char** argv)
   } 
   while(input != '\n' && input != EOF);
   
-  // print rollers
+  printf("\n--\n\n");
+  printf("Rollers after encryption:\n\n");
+  printRollers(roller);
 
   return 0;
 }
