@@ -27,7 +27,7 @@ char rollBackward(char roller[], char to_roll);
 void printRollers(char roller[][NUMBER_OF_ROLLER_ELEMENTS])
 {
   printf("    | 1 | 2 | 3 | 4 | 5\n----+---+---+---+---+---\n");
-  for (int index = 0; index < 26; index++) {
+  for (int index = 0; index < NUMBER_OF_ROLLER_ELEMENTS; index++) {
     printf("%3d | %c | %c | %c | %c | %c\n", index+1, roller[0][index], 
            roller[1][index], roller[2][index], roller[3][index], 
            roller[4][index]);
@@ -116,8 +116,10 @@ int main(int argc, char** argv)
   };
 
   int input;
+  int index;
   char ukw;
   char egw;
+  char tmp;
 
   do 
   {
@@ -127,12 +129,35 @@ int main(int argc, char** argv)
     if ('A' <= input && input <= 'Z')
     {
       // encipher, print character and update rollers
-//      printf("%d", inputed_char);
-      ukw = roller[4][roller[3][roller[2][roller[1][roller[0][input - 'A'] - 'A'] - 'A']- 'A'] - 'A'];
+    index=input-'A';
+    for (int i = 0; i < 4; i++)
+    {
+      index = roller[i][index] - 'A';
+    }
+    ukw = roller[4][index];
+    
+    /*ukw = roller[4]
+              [roller[3]
+                [roller[2]
+                  [roller[1]
+                    [roller[0][input - 'A']
+                  - 'A']
+                - 'A']
+              - 'A']
+            - 'A'];*/
+      
+      //printf("%c", ukw);
+      
+      tmp = ukw;
+      for (int i = 3; i >= 0; i--) {
+        tmp = (strchr(roller[i], tmp) - roller[i]) + 'A';
+      }
+      
+      egw = tmp;
 
-      egw = (strchr(roller[0], (strchr(roller[1], 
+      /*egw = (strchr(roller[0], (strchr(roller[1], 
 (strchr(roller[2], (strchr(roller[3], ukw) - roller[3]) + 'A') - roller[2]) +  
-'A') - roller[1]) + 'A') - roller[0]) + 'A';
+'A') - roller[1]) + 'A') - roller[0]) + 'A';*/
 
     printf("%c", egw);
     //printf("%02d %02d %02d\n", offsets[0], offsets[1], offsets[2]);
