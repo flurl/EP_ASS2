@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // ass2.c
 //
-// Template program for EP Assignment 2 WS18
+// Enigma - encrypt a string
 //
 // Group: Group C, study assistant Thomas Schwar
 //
@@ -23,7 +23,12 @@ char rollForward(char roller[], char to_roll);
 char rollBackward(char roller[], char to_roll);
 
 
-
+//-----------------------------------------------------------------------------
+///
+/// Print the rollers as a nice table
+///
+/// @param roller The rollers to print
+//
 void printRollers(char roller[][NUMBER_OF_ROLLER_ELEMENTS])
 {
   printf("    | 1 | 2 | 3 | 4 | 5\n----+---+---+---+---+---\n");
@@ -34,31 +39,22 @@ void printRollers(char roller[][NUMBER_OF_ROLLER_ELEMENTS])
   }
 
 }
-/*
-char encipher(char roller[][NUMBER_OF_ROLLER_ELEMENTS], char to_encipher)
-{
-  // encipher single character and return it
-}
 
-char rollForward(char roller[], char to_roll)
-{
-  // get character via index (convert to_roll to index)
-}
-
-char rollBackward(char roller[], char to_roll)
-{
-  // get index via character and convert index to character
-}
-*/
-
+//-----------------------------------------------------------------------------
+///
+/// Updates the offsets and rotates the rollers accordingly
+///
+/// @param roller The rollers
+/// @param offsets The offsets
+//
 void updateRollers(char roller[][NUMBER_OF_ROLLER_ELEMENTS], int offsets[])
 {
-  // calculate offsets and rotate roller-arrays if necessary
-  
+  // the 2nd roller has to be rotated everytime
   rotateRoller(roller[1]);
-  
+
   offsets[0]++;
-  
+
+  // check the offsets and after a complete turn, rotate the next one also
   if (offsets[0] > 25) {
     offsets[0] = 0;
     rotateRoller(roller[2]);
@@ -73,30 +69,21 @@ void updateRollers(char roller[][NUMBER_OF_ROLLER_ELEMENTS], int offsets[])
   
 }
 
+//-----------------------------------------------------------------------------
+///
+/// Rotates a single roller by shifting the elements right
+///
+/// @param roller The roller to rotate
+//
 void rotateRoller(char roller[]) {
-  //char tmp[NUMBER_OF_ROLLER_ELEMENTS];
   char tmp;
-  /*for (int i=0; i<NUMBER_OF_ROLLER_ELEMENTS; i++) printf("%c", roller[i]);
-  printf("\n");*/
-  
-  /*memcpy(tmp+1, roller, sizeof(char)*NUMBER_OF_ROLLER_ELEMENTS-sizeof(char));
-  tmp[0] = roller[NUMBER_OF_ROLLER_ELEMENTS-1];
-  memcpy(roller, tmp, sizeof(char)*NUMBER_OF_ROLLER_ELEMENTS);*/
-  /*for (int i=0; i<NUMBER_OF_ROLLER_ELEMENTS; i++) printf("%c", roller[i]);
-  printf("\n");*/
-  
-  tmp = roller[NUMBER_OF_ROLLER_ELEMENTS-1];
-  for (int counter=NUMBER_OF_ROLLER_ELEMENTS-1; counter>0; counter--) {
-	  roller[counter] = roller[counter-1];
+
+  tmp = roller[NUMBER_OF_ROLLER_ELEMENTS - 1];
+  for (int counter = NUMBER_OF_ROLLER_ELEMENTS - 1; counter > 0; counter--) {
+    roller[counter] = roller[counter - 1];
   }
   roller[0] = tmp;
-  
 }
-
-/*void rotateRoller(char roller[])
-{
-  // rotate array
-}*/
 
 
 int main(int argc, char** argv)
@@ -124,50 +111,38 @@ int main(int argc, char** argv)
   do 
   {
     input = fgetc(stdin);
-    
+
     // ignore input, which is not [A-Z]
     if ('A' <= input && input <= 'Z')
     {
       // encipher, print character and update rollers
-    index=input-'A';
-    for (int i = 0; i < 4; i++)
-    {
-      index = roller[i][index] - 'A';
-    }
-    ukw = roller[4][index];
-    
-    /*ukw = roller[4]
-              [roller[3]
-                [roller[2]
-                  [roller[1]
-                    [roller[0][input - 'A']
-                  - 'A']
-                - 'A']
-              - 'A']
-            - 'A'];*/
       
-      //printf("%c", ukw);
-      
-      tmp = ukw;
-      for (int i = 3; i >= 0; i--) {
-        tmp = (strchr(roller[i], tmp) - roller[i]) + 'A';
+      // convert characters to indices
+      index=input - 'A';
+      for (int counter = 0; counter < 4; counter++)
+      {
+        index = roller[counter][index] - 'A';
       }
-      
+      ukw = roller[4][index];
+
+      // convert indices to chars
+      tmp = ukw;
+      for (int counter = 3; counter >= 0; counter--) 
+      {
+        // strchr returns a pointer to the first found char, therefore 
+        // the start position (which is the array pointer itself) has to be 
+        // subtracted to get the zero based position of the char in the string
+        tmp = (strchr(roller[counter], tmp) - roller[counter]) + 'A';
+      }
       egw = tmp;
 
-      /*egw = (strchr(roller[0], (strchr(roller[1], 
-(strchr(roller[2], (strchr(roller[3], ukw) - roller[3]) + 'A') - roller[2]) +  
-'A') - roller[1]) + 'A') - roller[0]) + 'A';*/
-
-    printf("%c", egw);
-    //printf("%02d %02d %02d\n", offsets[0], offsets[1], offsets[2]);
-    
-    updateRollers(roller, offsets);
-
+      // print a single encrypted char
+      printf("%c", egw);
+      updateRollers(roller, offsets);
     }
   } 
   while(input != '\n' && input != EOF);
-  
+
   printf("\n--\n\n");
   printf("Rollers after encryption:\n\n");
   printRollers(roller);
